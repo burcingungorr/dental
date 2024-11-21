@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480292112961",
+    "project_id": "dentai-ba6f2",
+    "storage_bucket": "dentai-ba6f2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480292112961:android:1d41a3c3be2859647cd4c0",
+        "android_client_info": {
+          "package_name": "com.example.my_flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2dWyhkMOT2Phpqh83CpRhS4tlV1dOz7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
