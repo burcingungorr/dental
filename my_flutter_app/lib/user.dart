@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'hastaliklarim.dart';
 import 'randevularim.dart';
 import 'hakkimizda.dart';
-import 'tedavilerim.dart';
+import 'goruntulerim.dart';
+import 'login.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -34,7 +35,8 @@ class _UserPageState extends State<UserPage> {
       }
 
       // Firestore'dan ilgili belgeyi (uid ile) alıyoruz
-      DocumentSnapshot doc = await _firestore.collection('users').doc(user.uid).get();
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(user.uid).get();
 
       // Eğer belge mevcutsa name alanını döndürüyoruz
       if (doc.exists) {
@@ -49,8 +51,19 @@ class _UserPageState extends State<UserPage> {
     }
   }
 
+  // Çıkış yap fonksiyonu
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()), // LoginPage sayfasına yönlendirme
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -59,85 +72,125 @@ class _UserPageState extends State<UserPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.blue.shade100,
-              child: const Icon(Icons.person, size: 40, color: Colors.blue),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              userName ?? '', // Firebase'den alınan kullanıcı adı burada görünecek
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            // Diğer içerikler
-            Padding(
-              padding: const EdgeInsets.only(left: 45,right: 10,top:50),
-              child: Column( 
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                 Row(
-              children: [
-                _navigasyonKutusu('Hastalıklarım', Icons.healing, () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HastaliklarimPage()),
-                  );
-                }),
-                const SizedBox(width: 20),
-                _navigasyonKutusu('Randevularım', Icons.calendar_today, () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RandevularimPage()),
-                  );
-                }),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                _navigasyonKutusu('bla bla', Icons.zoom_in, () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TedavilerimPage()),
-                  );
-                }),
-                const SizedBox(width: 20),
-                _navigasyonKutusu('Hakkımızda', Icons.question_mark, () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HakkimizdaPage()),
-                 );
-                      }),
+                  const SizedBox(height: 40),
+                  const CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Color.fromARGB(169, 187, 222, 251),
+                    child: Icon(Icons.person, size: 40, color: Colors.blue),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    userName ?? '',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 30),
+                  // Navigasyon kutuları
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _navigasyonKutusu('Hastalıklarım', Icons.healing, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HastaliklarimPage()),
+                            );
+                          }),
+                          const SizedBox(width: 20),
+                          _navigasyonKutusu('Randevularım',
+                              Icons.calendar_today, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RandevularimPage()),
+                            );
+                          }),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _navigasyonKutusu('Görüntülerim', Icons.zoom_in, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GoruntulerimPage()),
+                            );
+                          }),
+                          const SizedBox(width: 20),
+                          _navigasyonKutusu(
+                              'Hakkımızda', Icons.question_mark, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HakkimizdaPage()),
+                            );
+                          }),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                     // Çıkış Yap Text Butonu
+                TextButton(
+                  onPressed: _signOut,
+                  child: const Text(
+                    'Çıkış Yap',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 0, 0, 0), // Metin rengi
+                    ),
+                  ),
+                )
+
+
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
-  Widget _navigasyonKutusu(String baslik, IconData ikon, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150,
-        height:150,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(9),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(ikon, size: 24, color: Colors.grey.shade700),
-            const SizedBox(height: 5),
-            Text(baslik, style: const TextStyle(fontSize: 12)),
-          ],
+
+  _navigasyonKutusu(String baslik, IconData ikon, VoidCallback onTap) {
+    return Flexible(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: 150,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              width: 2,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(ikon, size: 30, color: const Color.fromARGB(255, 0, 0, 0)),
+              const SizedBox(height: 5),
+              Text(
+                baslik,
+                style: const TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

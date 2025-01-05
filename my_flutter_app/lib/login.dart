@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_app/services/auth.dart';
 import 'pages.dart'; // UserPage sayfasını import ediyoruz
 import 'sign.dart';
-
+import 'doctorlogin.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -19,24 +19,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   // Kullanıcı giriş fonksiyonu
-  Future<void> signIn() async {
-    try {
-      await Auth().signIn(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+Future<void> signIn() async {
+  if (_formKey.currentState?.validate() ?? false) {
+    // Kullanıcı giriş bilgilerini alıyoruz
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-      // Giriş başarılıysa UserPage sayfasına yönlendirme yapıyoruz
+    try {
+      // Firebase giriş işlemi
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      // Eğer giriş başarılıysa, kullanıcıyı anasayfaya yönlendiriyoruz
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Pages()), // UserPage'e yönlendiriyoruz
       );
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMesage = e.message;
-      });
-
-      // Hata mesajını kullanıcıya gösteriyoruz
+      // Hata durumunda kullanıcıya bildirim gösteriyoruz
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Bu hesap bulunamadı")),
@@ -47,33 +47,18 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMesage ?? "Bir hata oluştu")),
+          SnackBar(content: Text("Hatalı e-posta veya şifre")),
         );
       }
     }
+  } else {
+    // Form geçersizse kullanıcıya uyarı
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Lütfen tüm alanları doğru şekilde doldurun")),
+    );
   }
+}
 
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
-
-      if (email == "test@test.com" && password == "123456") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Giriş başarılı!")),
-        );
-        // Burada da UserPage'e yönlendirebiliriz
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Pages()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Geçersiz e-posta veya şifre")),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -261,6 +246,27 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 165),
+                      ElevatedButton(
+                      onPressed: () {
+                        // Doktor girişi için DoctorLoginScreen sayfasına yönlendirme
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DoctorLoginScreen(), // Doktor giriş sayfasına yönlendiriyoruz
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        side: const BorderSide(color: Colors.black, width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('DOKTOR GİRİŞİ'),
+                    ),
                         ],
                       ),
                     ],
