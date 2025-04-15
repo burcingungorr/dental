@@ -13,9 +13,12 @@ Bu proje, ağız içi görüntülerden diş hastalıklarını tespit etmek için
 
 Bu uygulama, **erken teşhis** imkanı sunarak kullanıcıların diş sağlığını iyileştirmeyi ve sağlık hizmetlerine kolay erişim sağlamayı amaçlamaktadır. 
 
-## 🔬 Model
+## 🛠 Kullanılan Teknolojiler
 
-Uygulamanın arkasındaki yapay zeka modeli, **ResNet50** mimarisi ile eğitilmiştir ve ağız içi sağlık görüntüleri üzerine yapılan sınıflandırmalarla yüksek doğruluk oranları hedeflenmiştir.
+- **Mobil Uygulama Geliştirme**: [Flutter](https://flutter.dev/)
+- **Veri Tabanı**: [Firebase](https://firebase.google.com/)
+- **Yapay Zeka Modeli Eğitimi**: [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [ResNet50](https://keras.io/api/applications/resnet/)
+
 
 ![pgiris](https://github.com/user-attachments/assets/b1264b8e-1200-4da4-ba0c-ff97467374bd)
 ![pkayit](https://github.com/user-attachments/assets/b87188d1-39be-49df-b437-80457b0564ef)
