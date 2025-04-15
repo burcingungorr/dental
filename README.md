@@ -16,6 +16,7 @@ Bu uygulama, **erken teşhis** imkanı sunarak kullanıcıların diş sağlığ�
 ## 🔬 Model
 
 Uygulamanın arkasındaki yapay zeka modeli, **ResNet50** mimarisi ile eğitilmiştir ve ağız içi sağlık görüntüleri üzerine yapılan sınıflandırmalarla yüksek doğruluk oranları hedeflenmiştir.
+
 ![pgiris](https://github.com/user-attachments/assets/b1264b8e-1200-4da4-ba0c-ff97467374bd)
 ![pkayit](https://github.com/user-attachments/assets/b87188d1-39be-49df-b437-80457b0564ef)
 ![pteshis](https://github.com/user-attachments/assets/b975c516-5a00-4a26-b4f7-4ba94930b7e4)
