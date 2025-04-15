@@ -15,9 +15,9 @@ Bu uygulama, **erken teşhis** imkanı sunarak kullanıcıların diş sağlığ�
 
 ## 🛠 Kullanılan Teknolojiler
 
+- **Yapay Zeka Modeli Eğitimi**: [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [ResNet50](https://keras.io/api/applications/resnet/)
 - **Mobil Uygulama Geliştirme**: [Flutter](https://flutter.dev/)
 - **Veri Tabanı**: [Firebase](https://firebase.google.com/)
-- **Yapay Zeka Modeli Eğitimi**: [Python](https://www.python.org/), [TensorFlow](https://www.tensorflow.org/), [ResNet50](https://keras.io/api/applications/resnet/)
 
 
 ![pgiris](https://github.com/user-attachments/assets/b1264b8e-1200-4da4-ba0c-ff97467374bd)
